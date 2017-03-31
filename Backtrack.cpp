@@ -72,7 +72,7 @@ int minDeVector(std::vector<int>& vec){
 	return min;
 }
 
-void ColorearAux(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, std::vector<int>& res){
+void ColorearAux(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, std::vector<int>& res){  // optimizar 
 	if(cant == n){
 		int sincolorear = 0;
 		for(int i = 0; i < sal.size(); i++){
@@ -83,18 +83,16 @@ void ColorearAux(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, 
 		res.push_back(sincolorear);
 		return;
 	}
-	for(int i = cant; i < n; i++){
-		if(PintaRojo(ent, i, sal)){
-			sal[i] = 1;
-			ColorearAux(ent, n, i+1, sal, res);
+		if(PintaRojo(ent, cant, sal)){
+			sal[cant] = 1;
+			ColorearAux(ent, n, cant+1, sal, res);
 		}
-		if(PintaAzul(ent, i, sal)){
-			sal[i] = 2;
-			ColorearAux(ent, n, i+1, sal, res);
+		if(PintaAzul(ent, cant, sal)){
+			sal[cant] = 2;
+			ColorearAux(ent, n, cant+1, sal, res);
 		}
-		sal[i] = 3;
-		ColorearAux(ent, n, i+1, sal,res);
-	}
+		sal[cant] = 3;
+		ColorearAux(ent, n, cant+1, sal,res);
 }
 
 int Colorear(std::vector<int>& ent, int n){
@@ -104,6 +102,7 @@ int Colorear(std::vector<int>& ent, int n){
 	// mostrarVector(result);
 	return minDeVector(result);
 }
+
 
 // void ColorearAux(std::vector<int>& ent, int n, int cant, std::vector<int>& sal){
 // 	if(cant == n){

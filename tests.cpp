@@ -45,7 +45,23 @@ void MismoNum3Veces(){
 	cout << "Arreglo de long 3 con los 3 números igual funciona bien" << endl;
 }
 
+void MismoNumNVeces(int n){
+	std::vector<int> vec(n);
+	for(int i = 0; i < n; i++){
+		vec[i] = 5;
+	}
+	int c = Colorear(vec, vec.size());
+	assert(c == n-2);
+	cout << "Arreglo de long " << n << " con los " << n << " números iguales funciona bien" << endl;
+}
 
+void Prueba(){			// 
+	std::vector<int> vec(3);
+	vec[0] = 3;
+	vec[1] = 2;
+	vec[2] = 7;
+	Colorear(vec, vec.size());
+}
 
 
 
@@ -53,5 +69,11 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	Ej1();
 	Ej2();
 	MismoNum3Veces();
+	MismoNumNVeces(4);
+	MismoNumNVeces(5);
+	MismoNumNVeces(6);
+	MismoNumNVeces(7);
+	MismoNumNVeces(12);
+	Prueba();
 	return 0;
 }
