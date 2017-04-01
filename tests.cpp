@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <fstream>
 #include "Backtrack.cpp"
 
 void Ej1(){
@@ -61,19 +62,38 @@ void Prueba(){			//
 	vec[1] = 2;
 	vec[2] = 7;
 	Colorear(vec, vec.size());
+	Colorear2(vec, vec.size());
 }
 
 
 
 int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos tests pueden ser los de la cátedra, otro todos los números iguales, etc...)
-	Ej1();
-	Ej2();
-	MismoNum3Veces();
-	MismoNumNVeces(4);
-	MismoNumNVeces(5);
-	MismoNumNVeces(6);
-	MismoNumNVeces(7);
-	MismoNumNVeces(12);
-	Prueba();
+	// Ej1();
+	// Ej2();
+	// MismoNum3Veces();
+	// MismoNumNVeces(4);
+	// MismoNumNVeces(5);
+	// MismoNumNVeces(6);
+	// MismoNumNVeces(7);
+	// MismoNumNVeces(12);
+	// Prueba();
+	fstream e ("entradas.txt", ios::in | ios::out);
+	fstream s ("salidas.txt", ios::in | ios::out);
+	for(int i = 0; i < 150; i++){
+		int n;
+		e >> n;
+		std::vector<int> ent(n);
+		int aux;
+		for(int j = 0; j < n; j++){
+			e >> aux;
+			ent[j] = aux;
+		}
+		mostrarVector(ent);
+		int res = Colorear(ent, n);
+		s << res << endl;
+	}
+
+	e.close();
+	s.close();
 	return 0;
 }
