@@ -72,62 +72,66 @@ int minDeVector(std::vector<int>& vec){
 	return min;
 }
 
-void ColorearAux2(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, std::vector<int>& res){  // optimizar 
-	if(cant == n){
-		int sincolorear = 0;
-		for(int i = 0; i < sal.size(); i++){
-			if(sal[i] == 3){
-				sincolorear++;
-			}
-		}
-		mostrarVector(sal);
-		res.push_back(sincolorear);
-		return;
-	}
-		if(PintaRojo(ent, cant, sal)){
-			sal[cant] = 1;
-			ColorearAux2(ent, n, cant+1, sal, res);
-		}
-		if(PintaAzul(ent, cant, sal)){
-			sal[cant] = 2;
-			ColorearAux2(ent, n, cant+1, sal, res);
-		}
-		sal[cant] = 3;
-		ColorearAux2(ent, n, cant+1, sal,res);
-}
+// void ColorearAux2(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, std::vector<int>& res){  // optimizar 
+// 	if(cant == n){
+// 		int sincolorear = 0;
+// 		for(int i = 0; i < sal.size(); i++){
+// 			if(sal[i] == 3){
+// 				sincolorear++;
+// 			}
+// 		}
+// 		mostrarVector(sal);
+// 		res.push_back(sincolorear);
+// 		return;
+// 	}
+// 		if(PintaRojo(ent, cant, sal)){
+// 			sal[cant] = 1;
+// 			ColorearAux2(ent, n, cant+1, sal, res);
+// 		}
+// 		if(PintaAzul(ent, cant, sal)){
+// 			sal[cant] = 2;
+// 			ColorearAux2(ent, n, cant+1, sal, res);
+// 		}
+// 		sal[cant] = 3;
+// 		ColorearAux2(ent, n, cant+1, sal,res);
+// }
 
-int Colorear2(std::vector<int>& ent, int n){
-	std::vector<int> vc(n);
-	std::vector<int> result(0);
-	cout << endl;
-	ColorearAux2(ent, n, 0, vc, result);
-	cout << minDeVector(result) << endl;
-	return minDeVector(result);
-}
+// int Colorear2(std::vector<int>& ent, int n){
+// 	std::vector<int> vc(n);
+// 	std::vector<int> result(0);
+// 	cout << endl;
+// 	ColorearAux2(ent, n, 0, vc, result);
+// 	cout << minDeVector(result) << endl;
+// 	return minDeVector(result);
+// }
 
-int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint, std::vector<int>& sal){  // optimizar 
+int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint, std::vector<int>& sal, int &i){  // optimizar 
 	if(cant == n){
 		if(sinpintar < res){
 			res = sinpintar;
 		}
+		mostrarVector(sal);
+		i++;
+		cout << i << endl;
 		return res;
 	}
 	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){
 		sal[cant] = 1;
-		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1, sal);
+		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1, sal, i);
 	}
 	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){
 		sal[cant] = 2;	
-		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint, sal);
+		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint, sal, i);
 	}
 	sal[cant] = 3;
-	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, sal);
+	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, sal, i);
 }
 
 int Colorear(std::vector<int>& ent, int n){
 	std::vector<int> v(n);
 	int res = ent.size();
-	ColorearAux(ent, n, 0, 0, res, 0, 0, 0, 0, v);
+	int i = 0;
+	ColorearAux(ent, n, 0, 0, res, 0, 0, 0, 0, v, i);
 	cout << res << endl;
 	// mostrarVector(result);
 	return res;
