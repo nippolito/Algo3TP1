@@ -1,6 +1,12 @@
 #include <assert.h>
 #include <fstream>
-#include "Backtrack.cpp"
+#include <chrono>
+#include <random>
+#include "BacktrackPoda.cpp"
+
+// g++ -std=c++11 -o name file.cpp
+
+// std::milli - miloseconds, std::micro - microseconds, std::nano - nanoseconds
 
 void Ej1(){
 	std::vector<int> vec5(12);
@@ -62,7 +68,94 @@ void Prueba(){			//
 	vec[1] = 2;
 	vec[2] = 7;
 	Colorear(vec, vec.size());
-	Colorear2(vec, vec.size());
+}
+
+void writeFile(){
+	fstream e("ent.txt", ios::in | ios::out);
+	for(int i = 0; i < 150; i++){
+		e << 30 << endl;
+		for(int j = 0; j < 30; j++){
+			int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
+			if(j < 49){
+				e << v << " ";
+			}else{
+				e << v << endl;
+			}
+		}	
+	}
+}
+
+void muchasEntradasLong30(){
+	writeFile();
+
+	fstream e ("ent.txt", ios::in | ios::out);
+	fstream s ("salidas.txt", ios::in | ios::out);
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	start = std::chrono::system_clock::now();
+
+	for(int i = 0; i < 150; i++){
+		int n;
+		e >> n;
+		std::vector<int> ent(n);
+		int aux;
+		for(int j = 0; j < n; j++){
+			e >> aux;
+			ent[j] = aux;
+		}
+		// mostrarVector(ent);
+		int res = Colorear(ent, n);
+		s << res << endl;
+	}
+
+	end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+	// std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+	// std::cout << "finished computation at " << std::ctime(&end_time) << endl;
+	std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
+
+	e.close();
+	s.close();
+
+	cout << endl;
+
+	fstream e2 ("ent.txt", ios::in | ios::out);
+	fstream s2 ("salidasPoda.txt", ios::in | ios::out);
+
+	std::chrono::time_point<std::chrono::system_clock> start2, end2;
+
+	start2 = std::chrono::system_clock::now();
+
+	for(int i = 0; i < 150; i++){
+		int n;
+		e2 >> n;
+		std::vector<int> ent2(n);
+		int aux;
+		for(int j = 0; j < n; j++){
+			e2 >> aux;
+			ent2[j] = aux;
+		}
+		// mostrarVector(ent);
+		int res = ColorearPoda(ent2, n);
+		s2 << res << endl;
+	}
+
+	end2 = std::chrono::system_clock::now();
+
+	std::chrono::duration<double, std::milli> elapsed_seconds2 = end2-start2;
+	// std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+	// std::cout << "finished computation at " << std::ctime(&end_time) << endl;
+	std::cout << "Con poda tardó: " << elapsed_seconds2.count() << " ms" << endl;
+
+	cout << endl;
+	cout << "La diferencia es de: " << elapsed_seconds.count() / elapsed_seconds2.count() << " veces" << endl;
+
+	e2.close();
+	s2.close();
 }
 
 
@@ -77,23 +170,10 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	// MismoNumNVeces(7);
 	// MismoNumNVeces(12);
 	// Prueba();
-	fstream e ("entradas.txt", ios::in | ios::out);
-	fstream s ("salidas.txt", ios::in | ios::out);
-	for(int i = 0; i < 150; i++){
-		int n;
-		e >> n;
-		std::vector<int> ent(n);
-		int aux;
-		for(int j = 0; j < n; j++){
-			e >> aux;
-			ent[j] = aux;
-		}
-		mostrarVector(ent);
-		int res = Colorear(ent, n);
-		s << res << endl;
-	}
+	muchasEntradasLong30();
+	
 
-	e.close();
-	s.close();
+
+
 	return 0;
 }
