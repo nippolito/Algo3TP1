@@ -76,7 +76,7 @@ void writeFile(){
 		e << 30 << endl;
 		for(int j = 0; j < 30; j++){
 			int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
-			if(j < 49){
+			if(j < 29){
 				e << v << " ";
 			}else{
 				e << v << endl;
