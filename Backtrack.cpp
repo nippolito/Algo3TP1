@@ -72,6 +72,32 @@ int minDeVector(std::vector<int>& vec){
 	return min;
 }
 
+int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint){  // optimizar 
+	if(cant == n){
+		if(sinpintar < res){
+			res = sinpintar;
+		}
+		return res;
+	}
+	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){
+		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1);
+	}
+	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){	
+		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint);
+	}
+	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint);
+}
+
+int Colorear(std::vector<int>& ent, int n){
+	int res = ent.size();
+	ColorearAux(ent, n, 0, 0, res, 0, 0, 0, 0);
+	return res;
+}
+
+
+// PRIMERO DE TODOS, MUCHA MEMORIA ADICIONAL
+
+
 // void ColorearAux2(std::vector<int>& ent, int n, int cant, std::vector<int>& sal, std::vector<int>& res){  // optimizar 
 // 	if(cant == n){
 // 		int sincolorear = 0;
@@ -105,34 +131,40 @@ int minDeVector(std::vector<int>& vec){
 // 	return minDeVector(result);
 // }
 
-int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint, std::vector<int>& sal){  // optimizar 
-	if(cant == n){
-		if(sinpintar < res){
-			res = sinpintar;
-		}
-		// mostrarVector(sal);
-		return res;
-	}
-	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){
-		sal[cant] = 1;
-		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1, sal);
-	}
-	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){
-		sal[cant] = 2;	
-		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint, sal);
-	}
-	sal[cant] = 3;
-	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, sal);
-}
 
-int Colorear(std::vector<int>& ent, int n){
-	std::vector<int> v(n);
-	int res = ent.size();
-	ColorearAux(ent, n, 0, 0, res, 0, 0, 0, 0, v);
-	// cout << res << endl;
-	// mostrarVector(result);
-	return res;
-}
+// SEGUNDO, CON UN VECTOR SALIDA SOLO PARA VER EL OUTPUT
+
+
+// int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint, std::vector<int>& sal){  // optimizar 
+// 	if(cant == n){
+// 		if(sinpintar < res){
+// 			res = sinpintar;
+// 		}
+// 		// mostrarVector(sal);
+// 		return res;
+// 	}
+// 	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){
+// 		sal[cant] = 1;
+// 		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1, sal);
+// 	}
+// 	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){
+// 		sal[cant] = 2;	
+// 		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint, sal);
+// 	}
+// 	sal[cant] = 3;
+// 	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, sal);
+// }
+
+// int Colorear(std::vector<int>& ent, int n){
+// 	std::vector<int> v(n);
+// 	int res = ent.size();
+// 	ColorearAux(ent, n, 0, 0, res, 0, 0, 0, 0, v);
+// 	// cout << res << endl;
+// 	// mostrarVector(result);
+// 	return res;
+// }
+
+
 
 // recordar no asignar algo en el medio de la recursión porque cambia los valores en todos lados!!!!
 // tenés que cambiar el parámetro cuando hacés el paso recursivo (o sea, cambiarlo como parámetro de la función)

@@ -70,32 +70,39 @@ void Prueba(){			//
 	Colorear(vec, vec.size());
 }
 
-void writeFile(){
-	fstream e("ent.txt", ios::in | ios::out);
-	for(int i = 0; i < 150; i++){
-		e << 30 << endl;
-		for(int j = 0; j < 30; j++){
-			int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
-			if(j < 29){
-				e << v << " ";
-			}else{
-				e << v << endl;
-			}
-		}	
-	}
+void instanOrd(){
+
 }
 
-void muchasEntradasLong30(){
+void writeFile(){										// este test genera para todo n entre 1 y 40, un total de 40 casos aleatorios de longitud n
+	fstream e("ent.txt", ios::in | ios::out);
+	for(int n = 1; n < 41; n++){						
+		for(int i = 0; i < 40; i++){
+			e << n << endl;
+			for(int j = 0; j < n; j++){
+				int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
+				if(j < (n-1)){
+					e << v << " ";
+				}else{
+					e << v << endl;
+				}
+			}	
+		}
+	}
+
+}
+
+void experimento(){
+
+}
+
+void expSinYConPodaParaCorrec(){					// debes correr este algoritmo y chequear si son iguales salidasSinPoda y salidasPoda
 	writeFile();
 
 	fstream e ("ent.txt", ios::in | ios::out);
-	fstream s ("salidas.txt", ios::in | ios::out);
+	fstream s ("salidasSinPoda.txt", ios::in | ios::out);
 
-	std::chrono::time_point<std::chrono::system_clock> start, end;
-
-	start = std::chrono::system_clock::now();
-
-	for(int i = 0; i < 150; i++){
+	for(int i = 0; i < (40 * 40); i++){
 		int n;
 		e >> n;
 		std::vector<int> ent(n);
@@ -104,32 +111,17 @@ void muchasEntradasLong30(){
 			e >> aux;
 			ent[j] = aux;
 		}
-		// mostrarVector(ent);
 		int res = Colorear(ent, n);
 		s << res << endl;
 	}
 
-	end = std::chrono::system_clock::now();
-
-	std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
-	// std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-
-	// std::cout << "finished computation at " << std::ctime(&end_time) << endl;
-	std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
-
 	e.close();
 	s.close();
-
-	cout << endl;
 
 	fstream e2 ("ent.txt", ios::in | ios::out);
 	fstream s2 ("salidasPoda.txt", ios::in | ios::out);
 
-	std::chrono::time_point<std::chrono::system_clock> start2, end2;
-
-	start2 = std::chrono::system_clock::now();
-
-	for(int i = 0; i < 150; i++){
+	for(int i = 0; i < (40 * 40); i++){
 		int n;
 		e2 >> n;
 		std::vector<int> ent2(n);
@@ -138,26 +130,81 @@ void muchasEntradasLong30(){
 			e2 >> aux;
 			ent2[j] = aux;
 		}
-		// mostrarVector(ent);
 		int res = ColorearPoda(ent2, n);
 		s2 << res << endl;
 	}
-
-	end2 = std::chrono::system_clock::now();
-
-	std::chrono::duration<double, std::milli> elapsed_seconds2 = end2-start2;
-	// std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-
-	// std::cout << "finished computation at " << std::ctime(&end_time) << endl;
-	std::cout << "Con poda tardó: " << elapsed_seconds2.count() << " ms" << endl;
-
-	cout << endl;
-	cout << "La diferencia es de: " << elapsed_seconds.count() / elapsed_seconds2.count() << " veces" << endl;
 
 	e2.close();
 	s2.close();
 }
 
+void expSinPodaParaTiempo(){
+	writeFile();
+
+	fstream e ("ent.txt", ios::in | ios::out);
+	fstream s ("salidasSinPodaTiempo.csv", ios::out);
+
+	s << "Long_Entrada,Tiempo_ms" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	for(int i = 0; i < (40 * 40); i++){
+		int n;
+		e >> n;
+		s << n;
+		s << ",";
+		std::vector<int> ent(n);
+		int aux;
+		for(int j = 0; j < n; j++){
+			e >> aux;
+			ent[j] = aux;
+		}
+		start = std::chrono::system_clock::now();
+		Colorear(ent, n);
+		end = std::chrono::system_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+		s << elapsed_seconds.count() << endl;
+
+	}
+
+	// std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
+
+	e.close();
+	s.close();	
+}
+
+void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me genere el archivo aleatorio y probar con los dos el mismo archivo
+	fstream e ("ent.txt", ios::in | ios::out);
+	fstream s ("salidasConPodaTiempo.csv", ios::out);
+
+	s << "Long_Entrada,Tiempo_ms" << endl;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	for(int i = 0; i < (40 * 40); i++){
+		int n;
+		e >> n;
+		s << n;
+		s << ",";
+		std::vector<int> ent(n);
+		int aux;
+		for(int j = 0; j < n; j++){
+			e >> aux;
+			ent[j] = aux;
+		}
+		start = std::chrono::system_clock::now();
+		ColorearPoda(ent, n);
+		end = std::chrono::system_clock::now();
+		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+		s << elapsed_seconds.count() << endl;
+
+	}
+
+	// std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
+
+	e.close();
+	s.close();
+}
 
 
 int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos tests pueden ser los de la cátedra, otro todos los números iguales, etc...)
@@ -170,7 +217,8 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	// MismoNumNVeces(7);
 	// MismoNumNVeces(12);
 	// Prueba();
-	muchasEntradasLong30();
+	expSinPodaParaTiempo();
+	expConPodaParaTiempo();
 	
 
 
