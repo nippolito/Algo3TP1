@@ -2,7 +2,9 @@
 #include <iostream>
 
 
-
+int MinSinPintarProgDinam(std::vector<int>& ent, int n){
+	
+}
 
 
 

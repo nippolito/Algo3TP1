@@ -70,14 +70,51 @@ void Prueba(){			//
 	Colorear(vec, vec.size());
 }
 
+void MaxMinMaxMin(){				// agregar a Tests algunos de estos
+	std::vector<int> vec4(6);
+	vec4[0] = 200;
+	vec4[1] = 150;
+	vec4[2] = 199;
+	vec4[3] = 151;
+	vec4[4] = 198;
+	vec4[5] = 152;
+
+	ColorearPodaConVec(vec4, vec4.size());
+	cout << endl;
+	std::vector<int> vec5(12);
+	vec5[0] = 200;
+	vec5[1] = 150;
+	vec5[2] = 199;
+	vec5[3] = 151;
+	vec5[4] = 198;
+	vec5[5] = 152;
+	vec5[6] = 197;
+	vec5[7] = 153;
+	vec5[8] = 196;
+	vec5[9] = 154;
+	vec5[10] = 195;
+	vec5[11] = 155;
+
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	start = std::chrono::system_clock::now();
+	ColorearPodaConVec(vec5, vec5.size());
+	end = std::chrono::system_clock::now();
+
+	std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+
+	cout << elapsed_seconds.count() << endl;
+
+}
+
 void instanOrd(){
 
 }
 
 void writeFile(){										// este test genera para todo n entre 1 y 40, un total de 40 casos aleatorios de longitud n
-	fstream e("ent.txt", ios::in | ios::out);
+	fstream e("ent.txt", ios::out);
 	for(int n = 1; n < 41; n++){						
-		for(int i = 0; i < 40; i++){
+		for(int i = 0; i < 40; i++){					// genera los 40 casos de cada n al azar
 			e << n << endl;
 			for(int j = 0; j < n; j++){
 				int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
@@ -90,6 +127,37 @@ void writeFile(){										// este test genera para todo n entre 1 y 40, un tota
 		}
 	}
 
+	for(int y = 1; y < 41; y++){					// genera 10 casos para n entre 1 y 40, ordenados creciente
+		int prim = 0;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z < y + prim; z++){
+				if(z < (y - 1 + prim)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+
+	for(int y = 1; y < 41; y++){					// genera 10 casos para n entre 1 y 40, ordenados decreciente
+		int prim = 9;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z > prim - y; z--){
+				if(z > (prim - y + 1)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+
+	e.close();										
 }
 
 void experimento(){
@@ -100,7 +168,7 @@ void expSinYConPodaParaCorrec(){					// debes correr este algoritmo y chequear s
 	writeFile();
 
 	fstream e ("ent.txt", ios::in | ios::out);
-	fstream s ("salidasSinPoda.txt", ios::in | ios::out);
+	fstream s ("salidasSinPoda.txt", ios::out);
 
 	for(int i = 0; i < (40 * 40); i++){
 		int n;
@@ -119,7 +187,7 @@ void expSinYConPodaParaCorrec(){					// debes correr este algoritmo y chequear s
 	s.close();
 
 	fstream e2 ("ent.txt", ios::in | ios::out);
-	fstream s2 ("salidasPoda.txt", ios::in | ios::out);
+	fstream s2 ("salidasPoda.txt", ios::out);
 
 	for(int i = 0; i < (40 * 40); i++){
 		int n;
@@ -181,7 +249,7 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 0; i < (40 * 40); i++){
+	for(int i = 0; i < (40 * 40 + 40 * 10 + 40 * 10); i++){
 		int n;
 		e >> n;
 		s << n;
@@ -217,8 +285,9 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	// MismoNumNVeces(7);
 	// MismoNumNVeces(12);
 	// Prueba();
-	expSinPodaParaTiempo();
+	// expSinPodaParaTiempo();
 	expConPodaParaTiempo();
+	// MaxMinMaxMin();
 	
 
 
