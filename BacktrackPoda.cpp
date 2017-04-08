@@ -36,21 +36,21 @@ int ColorearPodaConVec(std::vector<int>& ent, int n){
 
 
 int ColorearPodaAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint, bool &hayRes){
-	if(cant == n){
-		if(sinpintar < res){
+	if(cant == n){				// llegás a una hoja, hay que parar de recorrer
+		if(sinpintar < res){		// si el resultado es mejor que el que ya tenías, vas a actualizarlo
 			res = sinpintar;
 			hayRes = true;
 		}
 		return res;
 	}
-	if((ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)) && (sinpintar < res)){
+	if((ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)) && (sinpintar < res)){	// si el número se puede pintar de rojo y aparte esa solución te puede llevar a una mejor que la que ya hay, entonces seguí por la rama que corresponde a pintar a ese elemento de rojo
 		ColorearPodaAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1, hayRes);
 	}
-	if((ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)) && (sinpintar < res)){	
+	if((ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)) && (sinpintar < res)){		// si el número se puede pintar de azul y aparte esa solución te puede llevar a una mejor que la que ya hay, entonces seguí por la rama que corresponde a pintar al elemento de azul
 		ColorearPodaAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint, hayRes);
 	}
-	if(!hayRes || (hayRes && (sinpintar + 1) < res)){
-		ColorearPodaAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, hayRes);
+	if(!hayRes || (hayRes && (sinpintar + 1) < res)){			// para seguir, o no se tiene que haber llegado a ninguna hoja todavía, o la rama que estás recorriendo tiene que poder superar el resultado que ya tenés
+		ColorearPodaAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint, hayRes);			// avanza por la rama que corresponde a no pintar el elemento
 	}
 }
 

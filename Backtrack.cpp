@@ -72,17 +72,17 @@ int minDeVector(std::vector<int>& vec){
 	return min;
 }
 
-int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint){  // optimizar 
-	if(cant == n){
-		if(sinpintar < res){
+int ColorearAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &res, int ultAz, int ultRo, bool HayAzPint, bool HayRojPint){ 
+	if(cant == n){		// llego a una hoja
+		if(sinpintar < res){		// si la cantidad de sinpintar es menor que el mejor resultado que ya tengo, entonces lo actualizo
 			res = sinpintar;
 		}
 		return res;
 	}
-	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){
+	if(ent[cant] > ent[ultRo] || cant == 0 || (HayRojPint == 0)){	// si el número puede pintarse de rojo, entonces sigo por la rama que corresponde a pintar al elemento de rojo
 		ColorearAux(ent, n, cant + 1, sinpintar, res, ultAz, cant, HayAzPint, HayRojPint + 1);
 	}
-	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){	
+	if(ent[cant] < ent[ultAz] || cant == 0 || (HayAzPint == 0)){	// si el número puede pintarse de azul, entonces sigo por la rama que corresponde a pintar al elemento de azul
 		ColorearAux(ent, n, cant + 1, sinpintar, res, cant, ultRo, HayAzPint + 1, HayRojPint);
 	}
 	ColorearAux(ent, n, cant+1, sinpintar + 1, res, ultAz, ultRo, HayAzPint, HayRojPint);
