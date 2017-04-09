@@ -17,7 +17,7 @@ import random
 def main():
 	df = pd.read_csv('salidasSinPodaTiempo.csv')
 	# df.head(20)   # muestra los primeros 20
-	df.describe()		# te devuelve un cuadrito con media de cada valor, min, max, etc
+	print df.describe()		# te devuelve un cuadrito con media de cada valor, min, max, etc
 	# nes20 = df[df['Longitud_Entrada'] == 20]
 	# tiempoMasQue40 = df["Tiempo_en_ms"] > 40
 	# TMas40 = df[tiempoMasQue40]
@@ -29,7 +29,14 @@ def main():
 	# plt.show()
 	agrup = df.groupby('Long_Entrada')
 
-	agrup.mean().plot()
+	agrup.mean().plot(kind="bar", logy="true")
+	# plt.show()
+
+	agrup2 = df.groupby(' Tipo')
+	agrup2.mean().plot(kind="bar", logy="true")
+	crec = df[df[' Tipo'] == 'Creciente']
+	crec.groupby('Long_Entrada')
+	crec.plot(kind="bar", logy="true")
 	plt.show()
 
 

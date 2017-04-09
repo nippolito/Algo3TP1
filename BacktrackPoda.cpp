@@ -39,7 +39,7 @@ int ColorearPodaAux(std::vector<int>& ent, int n, int cant, int sinpintar, int &
 	if(cant == n){				// llegás a una hoja, hay que parar de recorrer
 		if(sinpintar < res){		// si el resultado es mejor que el que ya tenías, vas a actualizarlo
 			res = sinpintar;
-			hayRes = true;
+			hayRes = true;			// necesario para saber si se llegó a una hoja del último nivel o no
 		}
 		return res;
 	}

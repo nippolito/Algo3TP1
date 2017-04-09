@@ -111,10 +111,10 @@ void instanOrd(){
 
 }
 
-void writeFile(){										// este test genera para todo n entre 1 y 40, un total de 40 casos aleatorios de longitud n
+void writeFile(){										// este test genera para todo n entre 1 y 25, un total de 80 casos aleatorios de longitud n + 10 ordenados crec + 10 ordenados decrec
 	fstream e("ent.txt", ios::out);
-	for(int n = 1; n < 41; n++){						
-		for(int i = 0; i < 40; i++){					// genera los 40 casos de cada n al azar
+	for(int n = 1; n < 26; n++){						// genera 80 casis para n entre 1 y 25 random
+		for(int i = 0; i < 80; i++){					// genera los 40 casos de cada n al azar
 			e << n << endl;
 			for(int j = 0; j < n; j++){
 				int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
@@ -127,7 +127,7 @@ void writeFile(){										// este test genera para todo n entre 1 y 40, un tota
 		}
 	}
 
-	for(int y = 1; y < 41; y++){					// genera 10 casos para n entre 1 y 40, ordenados creciente
+	for(int y = 1; y < 26; y++){					// genera 10 casos para n entre 1 y 25, ordenados creciente
 		int prim = 0;
 		for(int h = 0; h < 10; h++){
 			e << y << endl;
@@ -142,7 +142,7 @@ void writeFile(){										// este test genera para todo n entre 1 y 40, un tota
 		}
 	}
 
-	for(int y = 1; y < 41; y++){					// genera 10 casos para n entre 1 y 40, ordenados decreciente
+	for(int y = 1; y < 26; y++){					// genera 10 casos para n entre 1 y 25, ordenados decreciente
 		int prim = 9;
 		for(int h = 0; h < 10; h++){
 			e << y << endl;
@@ -212,11 +212,11 @@ void expSinPodaParaTiempo(){
 	fstream e ("ent.txt", ios::in | ios::out);
 	fstream s ("salidasSinPodaTiempo.csv", ios::out);
 
-	s << "Long_Entrada,Tiempo_ms" << endl;
+	s << "Long_Entrada,Tiempo_ms,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 0; i < (40 * 40); i++){
+	for(int i = 0; i < (25 * 80) + (25 * 10 * 2); i++){
 		int n;
 		e >> n;
 		s << n;
@@ -231,7 +231,17 @@ void expSinPodaParaTiempo(){
 		Colorear(ent, n);
 		end = std::chrono::system_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
-		s << elapsed_seconds.count() << endl;
+		s << elapsed_seconds.count();
+		s << ",";
+		if(i < 25*80){
+			s << "Random" << endl;
+		}else{
+			if(i >= 25*80 && i < (25*80 + 25*10)){
+				s << "Creciente" << endl;
+			}else{
+				s << "Decreciente" << endl;
+			}
+		}
 
 	}
 
@@ -245,7 +255,7 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 	fstream e ("ent.txt", ios::in | ios::out);
 	fstream s ("salidasConPodaTiempo.csv", ios::out);
 
-	s << "Long_Entrada,Tiempo_ms" << endl;
+	s << "Long_Entrada,Tiempo_ms,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
@@ -264,8 +274,17 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 		ColorearPoda(ent, n);
 		end = std::chrono::system_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
-		s << elapsed_seconds.count() << endl;
-
+		s << elapsed_seconds.count();
+		s << ",";
+		if(i < 40*40){
+			s << "Random" << endl;
+		}else{
+			if(i >= 40*40 && i < (40*40 + 40*10)){
+				s << "Creciente" << endl;
+			}else{
+				s << "Decreciente" << endl;
+			}
+		}
 	}
 
 	// std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
@@ -274,6 +293,59 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 	s.close();
 }
 
+void correrTestsPracticaBacktrackConPoda(){			// salvo los de entrada 200, son todos correctos.
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	fstream s ("salidasTestsCatedra.txt", ios::out);
+	for(int i = 1; i < 15; i++){
+		string st = "t" + std::to_string(i);
+		if(st != "t4"){
+			fstream e (st, ios::in);
+			int n;
+			e >> n;
+			std::vector<int> ent(n);
+			int aux;
+			for(int j = 0; j < n; j++){
+				e >> aux;
+				ent[j] = aux;
+			}
+			start = std::chrono::system_clock::now();
+			int res = ColorearPoda(ent, n);
+			end = std::chrono::system_clock::now();
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;			
+			s << res;
+			s << ",";
+			s << elapsed_seconds.count() << endl;
+		}
+	}
+}
+
+void correrTestsPracticaBacktrackSinPoda(){			// salvo los de entrada 200, son todos correctos.
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+
+	fstream s ("salidasTestsCatedraSinPoda.txt", ios::out);
+	for(int i = 1; i < 15; i++){
+		string st = "t" + std::to_string(i);
+		if(st != "t4"){
+			fstream e (st, ios::in);
+			int n;
+			e >> n;
+			std::vector<int> ent(n);
+			int aux;
+			for(int j = 0; j < n; j++){
+				e >> aux;
+				ent[j] = aux;
+			}
+			start = std::chrono::system_clock::now();
+			int res = Colorear(ent, n);
+			end = std::chrono::system_clock::now();
+			std::chrono::duration<double, std::milli> elapsed_seconds = end-start;			
+			s << res;
+			s << ",";
+			s << elapsed_seconds.count() << endl;
+		}
+	}
+}
 
 int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos tests pueden ser los de la cátedra, otro todos los números iguales, etc...)
 	// Ej1();
@@ -285,9 +357,10 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	// MismoNumNVeces(7);
 	// MismoNumNVeces(12);
 	// Prueba();
-	// expSinPodaParaTiempo();
-	expConPodaParaTiempo();
+	expSinPodaParaTiempo();
+	// expConPodaParaTiempo();
 	// MaxMinMaxMin();
+	// correrTestsPracticaBacktrackSinPoda();
 	
 
 
