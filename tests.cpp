@@ -62,6 +62,30 @@ void MismoNumNVeces(int n){
 	cout << "Arreglo de long " << n << " con los " << n << " números iguales funciona bien" << endl;
 }
 
+void MismoNumTiemposPodavsSinPoda(){		// compara el poda y sin poda con entrada de longitud 15, todos iguales
+	std::vector<int> vec(50);
+	for(int i = 0; i < 50; i++){
+		vec[i] = 10;
+	}
+
+	std::chrono::time_point<std::chrono::system_clock> start1, end1, start2, end2;
+
+	start1 = std::chrono::system_clock::now();
+	Colorear(vec, vec.size());
+	end1 = std::chrono::system_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_seconds = end1-start1;
+	cout << elapsed_seconds.count() << endl;
+
+
+	start2 = std::chrono::system_clock::now();
+	ColorearPoda(vec, vec.size());
+	end2 = std::chrono::system_clock::now();
+	std::chrono::duration<double, std::milli> elapsed_seconds2 = end2-start2;
+	cout << elapsed_seconds2.count() << endl;
+
+	cout << "La diferencia es de: > " << elapsed_seconds / elapsed_seconds2 << endl;
+}
+
 void Prueba(){			// 
 	std::vector<int> vec(3);
 	vec[0] = 3;
@@ -480,7 +504,8 @@ int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos
 	// MismoNumNVeces(12);
 	// expParaCorrec();
 	// correrTestsPracticaDinamica();
-	expDinamicaParaTiempo();
+	// expDinamicaParaTiempo();
+	MismoNumTiemposPodavsSinPoda();
 	// Prueba();
 	// Prueba1();
 	// Prueba2();
