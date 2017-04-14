@@ -152,9 +152,9 @@ void MaxMinMaxMin(){				// agregar a Tests algunos de estos
 
 }
 
-void writeFile(){										// este test genera para todo n entre 1 y 100, un total de 80 casos aleatorios de longitud n + 10 ordenados crec + 10 ordenados decrec
-	fstream e("ent.txt", ios::out);
-	for(int n = 1; n < 101; n++){						// genera 80 casos para n entre 1 y 25 random
+void writeFileDinam(){										// este test genera para todo n entre 1 y 100, un total de 80 casos aleatorios de longitud n + 10 ordenados crec + 10 ordenados decrec
+	fstream e("TestDinam.txt", ios::out);
+	for(int n = 1; n < 101; n++){						// genera 80 casos para n entre 1 y 100 random
 		for(int i = 0; i < 80; i++){					// genera los 80 casos de cada n al azar
 			e << n << endl;
 			for(int j = 0; j < n; j++){
@@ -168,7 +168,7 @@ void writeFile(){										// este test genera para todo n entre 1 y 100, un tot
 		}
 	}
 
-	for(int y = 1; y < 101; y++){					// genera 10 casos para n entre 1 y 25, ordenados creciente
+	for(int y = 1; y < 101; y++){					// genera 10 casos para n entre 1 y 100, ordenados creciente
 		int prim = 0;
 		for(int h = 0; h < 10; h++){
 			e << y << endl;
@@ -183,7 +183,104 @@ void writeFile(){										// este test genera para todo n entre 1 y 100, un tot
 		}
 	}
 
-	for(int y = 1; y < 101; y++){					// genera 10 casos para n entre 1 y 25, ordenados decreciente
+	for(int y = 1; y < 101; y++){					// genera 10 casos para n entre 1 y 100, ordenados decreciente
+		int prim = 9;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z > prim - y; z--){
+				if(z > (prim - y + 1)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+
+	e.close();										
+}
+
+void writeFileBackSinPoda(){
+	fstream e("TestSinPoda.txt", ios::out);
+	for(int n = 1; n < 37; n++){						// genera 40 casos para n entre 1 y 36 random
+		for(int i = 0; i < 40; i++){
+			e << n << endl;
+			for(int j = 0; j < n; j++){
+				int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
+				if(j < (n-1)){
+					e << v << " ";
+				}else{
+					e << v << endl;
+				}
+			}	
+		}
+	}
+
+	for(int y = 1; y < 28; y++){					// genera 10 casos para n entre 1 y 27, ordenados creciente
+		int prim = 0;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z < y + prim; z++){
+				if(z < (y - 1 + prim)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+
+	for(int y = 1; y < 28; y++){					// genera 10 casos para n entre 1 y 27, ordenados decreciente
+		int prim = 9;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z > prim - y; z--){
+				if(z > (prim - y + 1)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+	e.close();										
+}
+
+void writeFileBackConPoda(){
+	fstream e("TestConPoda.txt", ios::out);
+	for(int n = 1; n < 51; n++){						// genera 40 casos para n entre 1 y 46 random (en intervalos de 5)
+		for(int i = 0; i < 40; i++){
+			e << n << endl;
+			for(int j = 0; j < n; j++){
+				int v = rand() % 100000;				// v es un entero que está en el rango [0, 100000]
+				if(j < (n-1)){
+					e << v << " ";
+				}else{
+					e << v << endl;
+				}
+			}	
+		}
+	}
+
+	for(int y = 1; y < 51; y++){					// genera 10 casos para n entre 1 y 45, ordenados creciente (en intervalos de 5)
+		int prim = 0;
+		for(int h = 0; h < 10; h++){
+			e << y << endl;
+			for(int z = prim; z < y + prim; z++){
+				if(z < (y - 1 + prim)){
+					e << z << " ";
+				}else{
+					e << z << endl;
+				}
+			}
+			prim = prim + 100;
+		}
+	}
+
+	for(int y = 1; y < 51; y++){					// genera 10 casos para n entre 1 y 45, ordenados decreciente (en intervalos de 5)
 		int prim = 9;
 		for(int h = 0; h < 10; h++){
 			e << y << endl;
@@ -278,21 +375,19 @@ void expParaCorrec(){					// debes correr este algoritmo y chequear si son igual
 
 	e3.close();
 	s3.close();
-
-
 }
 
 void expSinPodaParaTiempo(){
-	writeFile();
+	writeFileBackSinPoda();
 
-	fstream e ("ent.txt", ios::in | ios::out);
+	fstream e ("TestSinPoda.txt", ios::in | ios::out);
 	fstream s ("salidasSinPodaTiempo.csv", ios::out);
 
 	s << "Long_Entrada,Tiempo_ms,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 0; i < (25 * 80) + (25 * 10 * 2); i++){
+	for(int i = 0; i < (36 * 40) + (27 * 10 * 2); i++){
 		int n;
 		e >> n;
 		s << n;
@@ -309,10 +404,10 @@ void expSinPodaParaTiempo(){
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
 		s << elapsed_seconds.count();
 		s << ",";
-		if(i < 25*80){
+		if(i < 36*40){
 			s << "Random" << endl;
 		}else{
-			if(i >= 25*80 && i < (25*80 + 25*10)){
+			if(i >= 36*40 && i < (36*40 + 27*10)){
 				s << "Creciente" << endl;
 			}else{
 				s << "Decreciente" << endl;
@@ -327,15 +422,16 @@ void expSinPodaParaTiempo(){
 	s.close();	
 }
 
-void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me genere el archivo aleatorio y probar con los dos el mismo archivo
-	fstream e ("ent.txt", ios::in | ios::out);
+void expConPodaParaTiempo(){
+	writeFileBackConPoda();
+	fstream e ("TestConPoda.txt", ios::in | ios::out);
 	fstream s ("salidasConPodaTiempo.csv", ios::out);
 
 	s << "Long_Entrada,Tiempo_ms,Tipo" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 0; i < (40 * 40 + 40 * 10 + 40 * 10); i++){
+	for(int i = 0; i < (50 * 40 + 50 * 10 + 50 * 10); i++){
 		int n;
 		e >> n;
 		s << n;
@@ -352,10 +448,10 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
 		s << elapsed_seconds.count();
 		s << ",";
-		if(i < 40*40){
+		if(i < 40*50){
 			s << "Random" << endl;
 		}else{
-			if(i >= 40*40 && i < (40*40 + 40*10)){
+			if(i >= 40*50 && i < (40*50 + 10*50)){
 				s << "Creciente" << endl;
 			}else{
 				s << "Decreciente" << endl;
@@ -370,7 +466,7 @@ void expConPodaParaTiempo(){			// estoy corriendo primero el SinPoda para que me
 }
 
 void expDinamicaParaTiempo(){
-	writeFile();
+	writeFileDinam();
 
 	fstream e ("ent.txt", ios::in | ios::out);
 	fstream s ("salidasDinamicaTiempo.csv", ios::out);
@@ -493,26 +589,17 @@ void correrTestsPracticaDinamica(){				// son todos correctos
 }
 
 
-int main(){				// agregarle varios tests (ver cómo carajo se testeaba jaja, dos tests pueden ser los de la cátedra, otro todos los números iguales, etc...)
-	// Ej1();
-	// Ej2();
-	// MismoNum3Veces();
-	// MismoNumNVeces(4);
-	// MismoNumNVeces(5);
-	// MismoNumNVeces(6);
-	// MismoNumNVeces(7);
-	// MismoNumNVeces(12);
+int main(){
 	// expParaCorrec();
 	// correrTestsPracticaDinamica();
 	// expDinamicaParaTiempo();
-	MismoNumTiemposPodavsSinPoda();
-	// Prueba();
-	// Prueba1();
-	// Prueba2();
+	// MismoNumTiemposPodavsSinPoda();
 	// expSinPodaParaTiempo();
 	// expConPodaParaTiempo();
 	// MaxMinMaxMin();
 	// correrTestsPracticaBacktrackSinPoda();
+	// expSinPodaParaTiempo();
+	expConPodaParaTiempo();
 	
 
 
