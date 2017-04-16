@@ -17,20 +17,48 @@ import random
 def Ejercicio1():
 	df = pd.read_csv('../Testing/salidasSinPodaTiempo.csv')
 
+	enes = range(1, 37)
+	enes2 = range(1, 28)
+
 	Random = df[df['Tipo'] == 'Random']
 	Rand_count = Random.groupby('Long_Entrada').mean()
-	Rand_count.plot(title='Random')
-	plt.ylabel('Tiempo en ms')
+	List1 = Rand_count.Tiempo_ms.tolist()
+	L1 = List1[0:27]
 
 	Crecientes = df[df['Tipo'] == 'Creciente']
 	Crec_count = Crecientes.groupby('Long_Entrada').mean()
-	Crec_count.plot(title='Random')
-	plt.ylabel('Tiempo en ms')
+	List2 = Crec_count.Tiempo_ms.tolist()
+	# Crec_count.plot(title='Creciente')
+	# plt.ylabel('Tiempo en ms')
 
 	Decrecientes = df[df['Tipo'] == 'Decreciente']
 	Decrec_count = Decrecientes.groupby('Long_Entrada').mean()
-	Decrec_count.plot(title='Random')
+	List3 = Decrec_count.Tiempo_ms.tolist()
+	# Decrec_count.plot(title='Decreciente')
+	# plt.ylabel('Tiempo en ms')
+
+	Iguales = df[df['Tipo'] == 'Iguales']
+	Iguales_count = Iguales.groupby('Long_Entrada').mean()
+	List4 = Iguales_count.Tiempo_ms.tolist()
+	L4 = List4[0:27]
+
+	dataf1 = pd.DataFrame({'Crecientes': List2, 'Decrecientes': List3,'Longitud': enes2})
+	dataf1.astype(float)
+	dataf1.plot(title='Crecientes y Decrecientes', x='Longitud')
 	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Longitud Entrada')
+
+	dataf2 = pd.DataFrame({'Random': List1, 'Iguales': List4,'Longitud': enes})
+	dataf2.astype(float)
+	dataf2.plot(title='Random e Iguales', x='Longitud', logy=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Longitud Entrada')	
+
+	dataf3 = pd.DataFrame({'Random': L1, 'Iguales': L4, 'Crecientes': List2, 'Decrecientes': List3, 'Longitud': enes2})
+	dataf3.astype(float)
+	dataf3.plot(title='Random e Iguales', x='Longitud', logy=True)
+	plt.ylabel('Tiempo en ms')
+	plt.xlabel('Longitud Entrada')	
 
 	plt.show()
 
@@ -72,19 +100,24 @@ def Ejercicio2():
 def Ejercicio2SoloRandom():
 	df = pd.read_csv('../Testing/PodaRandomSalidasTiempo.csv')
 
+	enes = range(1, 40)
+	complejidad = [(3**n) for n in enes]
+
 	Random = df[df['Tipo'] == 'Random']
 	Rand_count = Random.groupby('Long_Entrada').mean()
-	Rand_count.plot(title='Random')
+	List1 = Rand_count.Tiempo_ms.tolist()
+	dataf1 = pd.DataFrame({'Tiempos': List1, 'Complejidad 3^n': complejidad, 'Longitud': enes})
+	dataf1.plot(title='Random', x='Longitud')
 	plt.ylabel('Tiempo en ms')
-	plt.show()
 
+	plt.show()
 
 def Ejercicio3():
 	df = pd.read_csv('../Testing/salidasEj3Tiempo.csv')
-	enes = range(1, 201)
-	complejidad = [(n**3) for n in enes]
-	complej = pd.DataFrame({'Longitud': enes, 'Complejidad n^3': complejidad})
-	complej = complej.astype(float)
+	enes = range(1, 301)
+	# complejidad = [(n**3) for n in enes]
+	# complej = pd.DataFrame({'Longitud': enes, 'Complejidad n^3': complejidad})
+	# complej = complej.astype(float)
 
 	Random = df[df['Tipo'] == 'Random']
 	Rand_count = Random.groupby('Long_Entrada').mean()
@@ -112,7 +145,11 @@ def Ejercicio3():
 	Iguales_count = Iguales.groupby('Long_Entrada').mean()
 	List5 = Iguales_count.Tiempo_ms.tolist()
 
-	dataf = pd.DataFrame({'TiemposRand': List1, 'TiemposCrec': List2, 'TiemposDecrec': List3, 'TiemposMayMin': List4, 'Iguales': List5, 'Longitud': enes})
+	df1 = pd.read_csv('../Testing/salidasFuncionEneCubo.csv')
+	Complej_count = df1.groupby('Long_Entrada').mean()
+	List6 = Complej_count.Tiempo_ms.tolist()
+
+	dataf = pd.DataFrame({'TiemposRand': List1, 'TiemposCrec': List2, 'TiemposDecrec': List3, 'TiemposMayMin': List4, 'Iguales': List5, 'Longitud': enes, 'Complejidad n^3': List6})
 	dataf.plot(x='Longitud')
 	plt.ylabel('Tiempo en ms')
 	# dataf2 = pd.DataFrame({'Tiempos': List2, 'Complejidad n^3': complejidad, 'Longitud': enes})
@@ -121,7 +158,51 @@ def Ejercicio3():
 
 	plt.show()
 
+def Ejercicio4():
+	df = pd.read_csv('../Testing/salidasEj4Tiempo.csv')
+	enes = range(1, 301)
+	# complejidad = [(n**3) for n in enes]
+	# complej = pd.DataFrame({'Longitud': enes, 'Complejidad n^3': complejidad})
+	# complej = complej.astype(float)
 
+	Random = df[df['Tipo'] == 'Random']
+	Rand_count = Random.groupby('Long_Entrada').mean()
+	List1 = Rand_count.Tiempo_ms.tolist()
+	# dataf1 = pd.DataFrame({'Tiempos': List1, 'Complejidad n^3': complejidad, 'Longitud': enes})
+	# dataf1.plot(title='Random', x='Longitud')
+	# plt.ylabel('Tiempo en ms')
+
+	Crecientes = df[df['Tipo'] == 'Creciente']
+	Crec_count = Crecientes.groupby('Long_Entrada').mean()
+	List2 = Crec_count.Tiempo_ms.tolist()
+	# dataf = pd.DataFrame({'Tiempos': asd, 'Complejidad n^3': complejidad, 'Longitud': enes})
+	# dataf.plot(x='Longitud', title='Creciente')
+	# plt.ylabel('Tiempo en ms')
+
+	Decrecientes = df[df['Tipo'] == 'Decreciente']
+	Decrec_count = Decrecientes.groupby('Long_Entrada').mean()
+	List3 = Decrec_count.Tiempo_ms.tolist()
+
+	MayMen = df[df['Tipo'] == 'MayMen']
+	MayMen_count = MayMen.groupby('Long_Entrada').mean()
+	List4 = MayMen_count.Tiempo_ms.tolist()
+
+	Iguales = df[df['Tipo'] == 'Iguales']
+	Iguales_count = Iguales.groupby('Long_Entrada').mean()
+	List5 = Iguales_count.Tiempo_ms.tolist()
+
+	df1 = pd.read_csv('../Testing/salidasFuncionEneCubo.csv')
+	Complej_count = df1.groupby('Long_Entrada').mean() * 5
+	List6 = Complej_count.Tiempo_ms.tolist()
+
+	dataf = pd.DataFrame({'TiemposRand': List1, 'TiemposCrec': List2, 'TiemposDecrec': List3, 'TiemposMayMin': List4, 'Iguales': List5, 'Longitud': enes})
+	dataf.plot(x='Longitud')
+	plt.ylabel('Tiempo en ms')
+	# dataf2 = pd.DataFrame({'Tiempos': List2, 'Complejidad n^3': complejidad, 'Longitud': enes})
+	# dataf2.plot(title='Decreciente', x='Longitud')
+	# plt.ylabel('Tiempo en ms')
+
+	plt.show()
 
 
 def main():
@@ -165,8 +246,7 @@ def main():
 	# crec.plot(kind="bar", logy="true")
 	# plt.show()
 
-
-Ejercicio2()
+Ejercicio4()
 
 
 
