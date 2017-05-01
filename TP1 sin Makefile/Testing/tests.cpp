@@ -278,7 +278,6 @@ void writeFilePeorCasoDinam(){
 }
 
 void expPeorCasoDinamEj3(){
-	writeFilePeorCasoDinam();
 
 	fstream e ("EntradasPeorCasoDinam.csv", ios::in | ios::out);
 	fstream s ("salidasEj3TiempoPeorCaso.csv", ios::out);
@@ -305,6 +304,24 @@ void expPeorCasoDinamEj3(){
 		s << elapsed_seconds.count();
 		s << ",";
 		s << "Peor_Caso" << endl;
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej3(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		s << "Peor_Caso" << endl;
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej3(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		s << "Peor_Caso" << endl;
 	}
 
 	// std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
@@ -314,7 +331,6 @@ void expPeorCasoDinamEj3(){
 }
 
 void expPeorCasoDinamEj4(){
-	writeFilePeorCasoDinam();
 	fstream e ("EntradasPeorCasoDinam.csv", ios::in | ios::out);
 	fstream s ("salidasEj4TiempoPeorCaso.csv", ios::out);
 
@@ -322,7 +338,7 @@ void expPeorCasoDinamEj4(){
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;
 
-	for(int i = 0; i < (400 * 10); i++){
+	for(int i = 0; i < (250 * 10); i++){
 		int n;
 		e >> n;
 		s << n;
@@ -337,6 +353,24 @@ void expPeorCasoDinamEj4(){
 		Ej4(ent, n);
 		end = std::chrono::system_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		s << "Peor_Caso" << endl;
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej4(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		s << "Peor_Caso" << endl;
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej4(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
 		s << elapsed_seconds.count();
 		s << ",";
 		s << "Peor_Caso" << endl;
@@ -821,7 +855,7 @@ void PruebaEj3Entrada1000(){		// tardó 69 segs aprox
 }
 
 void expEj3ParaTiempo(){
-	writeFileEj3();
+	// writeFileEj3();
 
 	fstream e ("TestDinam.txt", ios::in | ios::out);
 	fstream s ("salidasEj3Tiempo.csv", ios::out);
@@ -865,8 +899,34 @@ void expEj3ParaTiempo(){
 				}		
 			}
 		}
-	}
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej3(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		if(i < 250*50){
+			s << "Random" << endl;
+		}else{
+			if(i >= 250*50 && i < (250*50 + 250*10)){
+				s << "Creciente" << endl;
+			}else{
+				if(i >= (250 * 50 + 250 * 10) && i < (250*50 + 250*10 + 250*10)){
+					s << "Decreciente" << endl;	
+				}else{
+					if(i >= 250 * 50 + 250*10 + 250*10 && i < (250*50 + 250*10 + 250*10 + 250*10)){
+						s << "MayMen" << endl;
+					}else{
+						s << "Iguales" << endl;
+					}
+					
+				}		
+			}
+		}
 
+	}
 	// std::cout << "Sin poda tardó: " << elapsed_seconds.count() << " ms" << endl;
 
 	e.close();
@@ -896,6 +956,32 @@ void expEj4ParaTiempo(){
 		Ej4(ent, n);
 		end = std::chrono::system_clock::now();
 		std::chrono::duration<double, std::milli> elapsed_seconds = end-start;
+		s << elapsed_seconds.count();
+		s << ",";
+		if(i < 250*50){
+			s << "Random" << endl;
+		}else{
+			if(i >= 250*50 && i < (250*50 + 250*10)){
+				s << "Creciente" << endl;
+			}else{
+				if(i >= (250 * 50 + 250 * 10) && i < (250*50 + 250*10 + 250*10)){
+					s << "Decreciente" << endl;	
+				}else{
+					if(i >= 250 * 50 + 250*10 + 250*10 && i < (250*50 + 250*10 + 250*10 + 250*10)){
+						s << "MayMen" << endl;
+					}else{
+						s << "Iguales" << endl;
+					}
+					
+				}		
+			}
+		}
+		s << n;
+		s << ",";
+		start = std::chrono::system_clock::now();
+		Ej4(ent, n);
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end-start;
 		s << elapsed_seconds.count();
 		s << ",";
 		if(i < 250*50){
@@ -1062,9 +1148,9 @@ void expFuncionEneCubo(int n){
 int main(){
 	// expPeorCasoDinamEj3();
 	// expPeorCasoDinamEj4();
-	// expEj3ParaTiempo();
 	// expEj4ParaTiempo();
-	expPeorCasoEj2();
+	// expEj4ParaTiempo();
+
 
 
 
